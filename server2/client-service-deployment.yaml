@@ -1,0 +1,33 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: server2
+spec:
+  selector:
+    app: server2
+  ports:
+    - protocol: TCP
+      port: 8586
+      nodePort: 30084
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server2
+spec:
+  selector:
+    matchLabels:
+      app: server2
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: server2
+    spec:
+      containers:
+        - name: server2
+          image: server2:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8586
